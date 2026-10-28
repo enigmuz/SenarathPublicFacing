@@ -1,0 +1,93 @@
+# ============================================================================
+#  Senarath Bank  |  SIMULATION / SECURITY TRAINING LAB
+#  One-host stack:  MariaDB  +  general website  +  online banking
+#
+#  *** DELIBERATELY VULNERABLE. Run only on an ISOLATED lab network. ***
+#  *** Never place real data, real customers or real money here.      ***
+#
+#  After `docker compose up -d --build`:
+#     General website   -> http://localhost:8080
+#     SenNet banking    -> http://localhost:8081
+#     MariaDB           -> localhost:3306  (user senarath_app / App@12345)
+#
+#  SIEM logs (JSON) land on the host under ./siem-logs/  -> point the
+#  on-prem NG SIEM Log Collector at that folder.
+# ============================================================================
+
+services:
+  db:
+    image: mariadb:11.4
+    container_name: senarath-sim-db
+    environment:
+      MARIADB_ROOT_PASSWORD: "Root@12345"
+    command:
+      - "--general-log=1"
+      - "--general-log-file=/var/log/mysql/general.log"
+      - "--log-output=FILE"
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+      - dbdata:/var/lib/mysql
+      - ./siem-logs/db:/var/log/mysql
+    ports:
+      - "3307:3306"
+    networks: [senarath]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  general-website:
+    build: ./general-website
+    container_name: senarath-sim-web
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: senarath_app
+      DB_PASSWORD: App@12345
+      DB_NAME: senarath_web
+      LOG_DIR: /app/logs
+      # Public URLs - set these to your domain when you go live:
+      WEB_URL: "${WEB_URL:-http://localhost:8090}"
+      BANK_URL: "${BANK_URL:-http://localhost:8091}"
+    volumes:
+      - ./siem-logs/general-website:/app/logs
+      - web_uploads:/app/uploads
+    ports:
+      - "8090:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [senarath]
+    restart: unless-stopped
+
+  online-banking:
+    build: ./online-banking
+    container_name: senarath-sim-bank
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: senarath_app
+      DB_PASSWORD: App@12345
+      DB_NAME: senarath_bank
+      LOG_DIR: /app/logs
+      WEB_URL: "${WEB_URL:-http://localhost:8090}"
+      BANK_URL: "${BANK_URL:-http://localhost:8091}"
+    volumes:
+      - ./siem-logs/online-banking:/app/logs
+    ports:
+      - "8091:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [senarath]
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+  web_uploads:
+
+networks:
+  senarath:
+    driver: bridge

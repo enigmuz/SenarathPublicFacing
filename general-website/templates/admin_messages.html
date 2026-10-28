@@ -1,0 +1,26 @@
+{% extends "admin_base.html" %}
+{% set active='msg' %}
+{% block title %}Contact Messages — CMS{% endblock %}
+{% block content %}
+<h1 style="color:var(--navy);margin-top:0">Contact Messages</h1>
+<form method="get" action="/admin/messages" style="display:flex;gap:10px;max-width:460px;margin-bottom:18px">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search by name or subject">
+  <button class="btn navy" type="submit">Search</button>
+</form>
+{% if err %}<div class="alert err"><b>Query error:</b><div class="code">{{ err }}</div></div>{% endif %}
+<table class="tbl">
+  <tr><th>#</th><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Source IP</th><th>When</th></tr>
+  {% for m in rows %}
+  <tr>
+    <td>{{ m.id }}</td>
+    {# [VULN: stored XSS] message fields rendered unescaped #}
+    <td>{{ m.name | safe }}</td>
+    <td>{{ m.email | safe }}</td>
+    <td>{{ m.subject | safe }}</td>
+    <td style="max-width:320px">{{ m.message | safe }}</td>
+    <td>{{ m.src_ip }}</td>
+    <td style="font-size:12.5px">{{ m.created_at }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

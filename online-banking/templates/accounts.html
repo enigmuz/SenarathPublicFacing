@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% set active='accts' %}
+{% block title %}My Accounts — SenNet{% endblock %}
+{% block content %}
+<h1>My Accounts</h1>
+<div class="crumb">All your Senarath Bank accounts.</div>
+<div class="cards">
+  {% for a in accounts %}
+  <div class="acct-card">
+    <div class="type">{{ a.account_type|upper }} · {{ a.branch }}</div>
+    <div class="no">{{ a.account_no }}</div>
+    <div class="bal">LKR {{ '{:,.2f}'.format(a.balance) }} <small>{{ a.currency }}</small></div>
+    <div style="margin-top:6px;color:#cfe0f2;font-size:12px">Opened {{ a.opened_at }}</div>
+    <div style="margin-top:10px"><a href="/account/{{ a.account_no }}">View transactions →</a></div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

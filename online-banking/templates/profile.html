@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% set active='profile' %}
+{% block title %}Profile — SenNet{% endblock %}
+{% block content %}
+<h1>My Profile</h1>
+<div class="crumb">Manage your contact details and cards.</div>
+
+{% if msg %}<div class="alert ok">{{ msg }}</div>{% endif %}
+
+<div style="display:grid;grid-template-columns:1.1fr .9fr;gap:20px">
+  <div class="panel">
+    <h3>Personal details</h3>
+    <form method="post" action="/profile">
+      <label>Full name</label><input type="text" value="{{ cust.full_name }}" disabled>
+      <div class="form-row">
+        <div><label>NIC</label><input type="text" value="{{ cust.nic }}" disabled></div>
+        <div><label>Customer No.</label><input type="text" value="{{ cust.cust_no }}" disabled></div>
+      </div>
+      <label>Email</label><input type="email" name="email" value="{{ cust.email }}">
+      <label>Phone</label><input type="tel" name="phone" value="{{ cust.phone }}">
+      <label>Address</label><textarea name="address">{{ cust.address }}</textarea>
+      <button class="btn navy" type="submit" style="margin-top:16px">Save changes</button>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>My cards</h3>
+    {% if cards %}
+      {% for c in cards %}
+      <div class="acct-card" style="margin-bottom:14px">
+        <div class="type">{{ c.card_type }}</div>
+        <div class="no">{{ c.card_masked }}</div>
+        <div style="color:#cfe0f2;font-size:13px;margin-top:8px">Expires {{ c.expiry }} · {{ c.status }}</div>
+      </div>
+      {% endfor %}
+    {% else %}<p style="color:var(--muted)">No cards linked.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Senarath Bank — Banking for every Sri Lankan{% endblock %}
+{% block body %}
+
+<div class="hero"><div class="container">
+  <div>
+    <div class="eyebrow">සෙනරත් බැංකුව · Since 1998</div>
+    <h1>Banking built on trust, growing with Sri Lanka.</h1>
+    <p class="lead">From your first savings account to growing a business, Senarath Bank gives you secure, modern banking across the island — and now on SenNet, our online banking platform.</p>
+    <div class="cta">
+      <a class="btn lg" href="{{ bank_url }}/">Login to SenNet</a>
+      <a class="btn ghost lg" href="/personal" style="color:#fff;border-color:#fff">Open an Account</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h3>Today's Rates</h3>
+    <div class="rate"><span>Savings (Regular)</span><b>4.50%</b></div>
+    <div class="rate"><span>Fixed Deposit — 1 Year</span><b>11.25%</b></div>
+    <div class="rate"><span>Housing Loan (from)</span><b>9.90%</b></div>
+    <div class="rate"><span>Personal Loan (from)</span><b>13.50%</b></div>
+    <div class="rate"><span>USD / LKR</span><b>Rs. 298.40</b></div>
+  </div>
+</div></div>
+
+<section><div class="container">
+  <div class="section-title">
+    <div class="eyebrow">What we offer</div>
+    <h2>Everything you need, in one bank</h2>
+    <p>Simple, secure products for individuals, families and businesses.</p>
+  </div>
+  <div class="grid c4">
+    <div class="card"><div class="ic">🏦</div><h3>Savings & Current</h3><p>Flexible accounts with competitive interest and island-wide access.</p><a class="more" href="/personal">Learn more →</a></div>
+    <div class="card"><div class="ic">💰</div><h3>Fixed Deposits</h3><p>Lock in strong returns with tenures from 3 months to 5 years.</p><a class="more" href="/personal">Learn more →</a></div>
+    <div class="card"><div class="ic">🏠</div><h3>Loans</h3><p>Housing, personal, vehicle and SME loans with fast approval.</p><a class="more" href="/loans">Learn more →</a></div>
+    <div class="card"><div class="ic">💳</div><h3>Cards</h3><p>Debit and credit cards with rewards accepted worldwide.</p><a class="more" href="/cards">Learn more →</a></div>
+  </div>
+</div></section>
+
+<div class="band"><div class="container" style="padding:40px 20px">
+  <div class="stat"><b>8</b><span>Branches island-wide</span></div>
+  <div class="stat"><b>240K+</b><span>Customers served</span></div>
+  <div class="stat"><b>Rs. 85B</b><span>Total deposits</span></div>
+  <div class="stat"><b>24/7</b><span>SenNet online banking</span></div>
+</div></div>
+
+<section><div class="container">
+  <div class="two-col" style="align-items:center">
+    <div>
+      <div class="eyebrow">SenNet Online Banking</div>
+      <h2 style="color:var(--navy);font-size:30px;margin-top:8px">Bank anytime, from anywhere</h2>
+      <p style="color:var(--muted);font-size:17px">Transfer funds, pay bills, manage beneficiaries and download e-statements — all from a secure, easy dashboard.</p>
+      <ul class="feature-list" style="color:var(--muted)">
+        <li>✔ Instant fund transfers between accounts</li>
+        <li>✔ Utility & bill payments</li>
+        <li>✔ Manage payees and standing instructions</li>
+        <li>✔ Real-time transaction history & e-statements</li>
+      </ul>
+      <a class="btn navy lg" href="{{ bank_url }}/">Go to SenNet →</a>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff">
+      <h3 style="color:var(--gold)">Why Senarath Bank?</h3>
+      <p style="color:#d6e4f3">A fictional bank built for a cybersecurity simulation — realistic enough to train a SOC, detect attacks, and tune your SIEM.</p>
+      <p style="color:#d6e4f3;margin-top:12px">Every action across this site and SenNet is logged and shipped to the monitoring pipeline.</p>
+    </div>
+  </div>
+</div></section>
+
+{% if news %}
+<section style="background:#fff"><div class="container">
+  <div class="section-title"><div class="eyebrow">Newsroom</div><h2>Latest from Senarath Bank</h2></div>
+  <div class="grid c3">
+    {% for n in news %}
+    <div class="news-item"><div class="body">
+      <div class="cat">{{ n.category }}</div>
+      <h3><a href="/news/{{ n.slug }}">{{ n.title }}</a></h3>
+      <p style="color:var(--muted);font-size:14.5px">{{ n.summary }}</p>
+      <div class="meta">{{ n.published_at.strftime('%d %b %Y') if n.published_at else '' }}</div>
+    </div></div>
+    {% endfor %}
+  </div>
+</div></section>
+{% endif %}
+
+<section><div class="container">
+  <div class="card" style="text-align:center;background:linear-gradient(120deg,#fff6da,#fdeec0);border:none">
+    <h2 style="color:var(--navy);margin-top:0">Stay updated</h2>
+    <p style="color:var(--muted)">Subscribe to rates, offers and news from Senarath Bank.</p>
+    <form method="post" action="/subscribe" style="max-width:460px;margin:16px auto 0;display:flex;gap:10px">
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button class="btn navy" type="submit">Subscribe</button>
+    </form>
+  </div>
+</div></section>
+{% endblock %}

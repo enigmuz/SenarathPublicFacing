@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Loans — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Loans</div>
+  <h1>Loans</h1>
+  <p>Fast, flexible lending for life's milestones.</p>
+</div></div>
+<div class="content"><div class="container">
+  <div class="grid c3" style="margin-bottom:34px">
+    <div class="card"><div class="ic">🏠</div><h3>Housing Loan</h3><p>From 9.90% p.a. · up to 25 years · up to Rs. 50M</p></div>
+    <div class="card"><div class="ic">🚗</div><h3>Vehicle Loan</h3><p>From 11.50% p.a. · new & used · quick approval</p></div>
+    <div class="card"><div class="ic">👤</div><h3>Personal Loan</h3><p>From 13.50% p.a. · up to Rs. 5M · minimal documents</p></div>
+  </div>
+  <h2 style="color:var(--navy)">Compare our loans</h2>
+  <table class="tbl">
+    <tr><th>Loan</th><th>Interest (from)</th><th>Max tenure</th><th>Max amount</th></tr>
+    <tr><td>Housing Loan</td><td>9.90% p.a.</td><td>25 years</td><td>Rs. 50,000,000</td></tr>
+    <tr><td>Vehicle Loan</td><td>11.50% p.a.</td><td>7 years</td><td>Rs. 15,000,000</td></tr>
+    <tr><td>Personal Loan</td><td>13.50% p.a.</td><td>5 years</td><td>Rs. 5,000,000</td></tr>
+    <tr><td>SME Loan</td><td>12.00% p.a.</td><td>10 years</td><td>Rs. 100,000,000</td></tr>
+  </table>
+  <div class="card" style="margin-top:30px;background:linear-gradient(120deg,#fff6da,#fdeec0);border:none;text-align:center">
+    <h2 style="color:var(--navy);margin-top:0">Apply in minutes</h2>
+    <p style="color:var(--muted)">Our team will get back to you within one working day.</p>
+    <a class="btn navy lg" href="/contact">Enquire now</a>
+  </div>
+</div></div>
+{% endblock %}

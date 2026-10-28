@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Staff Login — Senarath Bank CMS</title>
+<link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="sim-ribbon"><div class="inner">⚠ SIMULATION — SECURITY TRAINING LAB — <b>NOT A REAL BANK</b></div></div>
+<div class="login-wrap">
+  <div class="brand"><img src="{{ url_for('static', filename='img/logo.png') }}" style="height:46px"></div>
+  <h2>Staff / CMS Portal</h2>
+  {% if error %}<div class="alert err">{{ error }}</div>{% endif %}
+  <form method="post" action="/admin/login">
+    <label>Username</label><input type="text" name="username" autofocus required>
+    <label>Password</label><input type="password" name="password" required>
+    <button class="btn navy lg" type="submit" style="width:100%;margin-top:20px">Sign in</button>
+  </form>
+  <p style="text-align:center;margin-top:16px"><a href="/" style="font-size:13px">← Back to website</a></p>
+</div>
+</body>
+</html>

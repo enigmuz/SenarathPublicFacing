@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set active='benes' %}
+{% block title %}Beneficiaries — SenNet{% endblock %}
+{% block content %}
+<h1>Beneficiaries</h1>
+<div class="crumb">Manage the payees you transfer to.</div>
+
+<div style="display:grid;grid-template-columns:1fr 1.2fr;gap:20px">
+  <div class="panel">
+    <h3>Add beneficiary</h3>
+    <form method="post" action="/beneficiaries">
+      <label>Nickname</label><input type="text" name="nickname" required>
+      <label>Account number</label><input type="text" name="account_no" required>
+      <label>Bank</label>
+      <select name="bank">
+        <option>Senarath Bank</option><option>Bank of Ceylon</option>
+        <option>Peoples Bank</option><option>Commercial Bank</option>
+        <option>Sampath Bank</option><option>Hatton National Bank</option>
+      </select>
+      <label>Payee name</label><input type="text" name="payee_name" required>
+      <button class="btn navy" type="submit" style="margin-top:16px">Add beneficiary</button>
+    </form>
+  </div>
+  <div class="panel">
+    <h3>Your beneficiaries</h3>
+    {% if benes %}
+    <table class="tbl">
+      <tr><th>Nickname</th><th>Account</th><th>Bank</th><th>Payee</th></tr>
+      {% for b in benes %}
+      {# [VULN: stored XSS] #}
+      <tr><td>{{ b.nickname | safe }}</td><td>{{ b.account_no }}</td><td>{{ b.bank }}</td><td>{{ b.payee_name | safe }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p style="color:var(--muted)">No beneficiaries saved yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

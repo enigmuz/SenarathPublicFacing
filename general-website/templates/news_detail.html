@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/news">News</a> / {{ a.category }}</div>
+  <h1>{{ a.title }}</h1>
+  <p>By {{ a.author }} · {{ a.published_at.strftime('%d %B %Y') if a.published_at else '' }}</p>
+</div></div>
+<div class="content"><div class="container prose">
+  <p style="font-size:18px;color:var(--muted)">{{ a.summary }}</p>
+  <hr style="border:none;border-top:1px solid var(--line);margin:22px 0">
+  {# [VULN: stored XSS] article body rendered unescaped #}
+  <div>{{ a.body | safe }}</div>
+  <p style="margin-top:34px"><a class="btn ghost" href="/news">← Back to Newsroom</a></p>
+</div></div>
+{% endblock %}

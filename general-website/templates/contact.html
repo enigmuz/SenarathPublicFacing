@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Contact — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Contact</div>
+  <h1>Contact Us</h1>
+  <p>We're here to help, 24/7.</p>
+</div></div>
+<div class="content"><div class="container">
+  <div class="two-col">
+    <div>
+      <div class="form-card">
+        <h2 style="margin-top:0;color:var(--navy)">Send us a message</h2>
+        <form method="post" action="/contact">
+          <div class="form-row">
+            <div><label>Name</label><input type="text" name="name" required></div>
+            <div><label>Email</label><input type="email" name="email" required></div>
+          </div>
+          <div class="form-row">
+            <div><label>Phone</label><input type="tel" name="phone"></div>
+            <div><label>Subject</label><input type="text" name="subject"></div>
+          </div>
+          <label>Message</label><textarea name="message" required></textarea>
+          <button class="btn navy lg" type="submit" style="margin-top:18px;width:100%">Send message</button>
+        </form>
+      </div>
+    </div>
+    <div>
+      <h2 style="color:var(--navy);margin-top:0">Get in touch</h2>
+      <p><b>24/7 Hotline:</b> 1944</p>
+      <p><b>Email:</b> info@senarathbank.lk</p>
+      <p><b>Head Office:</b><br>No. 42, Sir Baron Jayatilaka Mawatha,<br>Colombo 01, Sri Lanka</p>
+      <p><b>SWIFT:</b> SENBLKLX</p>
+      <hr style="border:none;border-top:1px solid var(--line);margin:20px 0">
+      <p style="color:var(--muted);font-size:14px">For online banking support, log in to <a href="{{ bank_url }}/">SenNet</a> and open a support ticket.</p>
+    </div>
+  </div>
+</div></div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set active='admin' %}
+{% block title %}Admin Panel — SenNet{% endblock %}
+{% block content %}
+<h1>Admin Panel</h1>
+<div class="crumb">Staff view of users, accounts and login activity.</div>
+
+{% if user.role not in ['admin','teller'] %}
+<div class="alert err"><b>Note:</b> you are viewing the admin panel as role
+"<b>{{ user.role }}</b>" — this access has been flagged to the SIEM
+(broken access control, by design).</div>
+{% endif %}
+
+<div class="panel" style="margin-bottom:20px">
+  <h3>Users &amp; credentials</h3>
+  <table class="tbl">
+    <tr><th>ID</th><th>Username</th><th>Role</th><th>Customer</th><th>NIC</th><th>Password (MD5)</th><th>Failed</th><th>Last login</th></tr>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.id }}</td><td><b>{{ u.username }}</b></td>
+      <td><span class="badge {{ 'crit' if u.role=='admin' else 'med' if u.role=='teller' else 'info' }}">{{ u.role }}</span></td>
+      <td>{{ u.full_name or '-' }}</td><td>{{ u.nic or '-' }}</td>
+      <td style="font-family:monospace;font-size:12px">{{ u.password_md5 }}</td>
+      <td>{{ u.failed_attempts }}</td>
+      <td style="font-size:12px">{{ u.last_login or '-' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="panel" style="margin-bottom:20px">
+  <h3>All accounts</h3>
+  <table class="tbl">
+    <tr><th>Account</th><th>Holder</th><th>Type</th><th>Branch</th><th style="text-align:right">Balance (LKR)</th><th>Status</th></tr>
+    {% for a in accts %}
+    <tr><td style="font-family:monospace">{{ a.account_no }}</td><td>{{ a.full_name }}</td>
+      <td>{{ a.account_type }}</td><td>{{ a.branch }}</td>
+      <td style="text-align:right">{{ '{:,.2f}'.format(a.balance) }}</td><td>{{ a.status }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="panel">
+  <h3>Recent login activity</h3>
+  <table class="tbl">
+    <tr><th>Time (UTC)</th><th>Username</th><th>Source IP</th><th>Outcome</th><th>Detail</th></tr>
+    {% for l in logins %}
+    <tr><td style="font-size:12px">{{ l.ts }}</td><td>{{ l.username }}</td><td>{{ l.src_ip }}</td>
+      <td><span class="badge {{ 'ok' if l.outcome=='success' else 'high' }}">{{ l.outcome }}</span></td>
+      <td style="font-size:12.5px">{{ l.detail or '' }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% set active='stmt' %}
+{% block title %}Statements — SenNet{% endblock %}
+{% block content %}
+<h1>e-Statements</h1>
+<div class="crumb">View and download your account statements.</div>
+
+<div class="panel" style="margin-bottom:20px">
+  <form method="get" action="/statements" style="display:flex;gap:12px;align-items:end;flex-wrap:wrap">
+    <div style="flex:1;min-width:220px">
+      <label>Account</label>
+      <select name="account">
+        {% for a in my_accounts %}
+        <option value="{{ a.account_no }}" {{ 'selected' if a.account_no==selected }}>{{ a.account_no }} — {{ a.account_type }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button class="btn navy" type="submit">View statement</button>
+  </form>
+</div>
+
+{% if acct %}
+<div class="panel">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h3 style="margin:0">Statement — {{ acct.account_no }}</h3>
+    <span class="badge info">{{ acct.full_name }}</span>
+  </div>
+  <table class="tbl" style="margin-top:14px">
+    <tr><th>Date/Time</th><th>Description</th><th>Ref</th><th style="text-align:right">Amount</th><th style="text-align:right">Balance</th></tr>
+    {% for t in txns %}
+    <tr>
+      <td>{{ t.ts.strftime('%d %b %Y %H:%M') if t.ts else '' }}</td>
+      <td>{{ t.counterparty_name }} — {{ t.memo | safe }}</td>
+      <td style="font-family:monospace;font-size:12px">{{ t.reference }}</td>
+      <td style="text-align:right" class="{{ 'amt-cr' if t.txn_type=='credit' else 'amt-dr' }}">
+        {{ '+' if t.txn_type=='credit' else '-' }}{{ '{:,.2f}'.format(t.amount) }}</td>
+      <td style="text-align:right">{{ '{:,.2f}'.format(t.balance_after) if t.balance_after is not none else '' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+{% endblock %}

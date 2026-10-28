@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Search — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Search</div>
+  <h1>Search results</h1>
+</div></div>
+<div class="content"><div class="container">
+  <form method="get" action="/search" style="display:flex;gap:10px;max-width:460px;margin-bottom:22px">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search...">
+    <button class="btn navy" type="submit">Search</button>
+  </form>
+  {# [VULN: reflected XSS] the query is echoed unescaped #}
+  <p>Showing results for: <b>{{ q | safe }}</b></p>
+  {% if results %}
+  <div class="grid c2">
+    {% for n in results %}
+    <div class="news-item"><div class="body">
+      <div class="cat">{{ n.category }}</div>
+      <h3><a href="/news/{{ n.slug }}">{{ n.title }}</a></h3>
+      <p style="color:var(--muted);font-size:14.5px">{{ n.summary }}</p>
+    </div></div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="alert info">No results found.</p>
+  {% endif %}
+</div></div>
+{% endblock %}

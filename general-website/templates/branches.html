@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Branches — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Branches</div>
+  <h1>Branch Network</h1>
+  <p>Find a Senarath Bank branch near you.</p>
+</div></div>
+<div class="content"><div class="container">
+  <form method="get" action="/branches" style="display:flex;gap:10px;max-width:480px;margin-bottom:22px">
+    <input type="text" name="city" placeholder="Search by city or branch name" value="{{ city }}">
+    <button class="btn navy" type="submit">Search</button>
+  </form>
+  {% if err %}<div class="alert err"><b>Database error:</b><div class="code">{{ err }}</div></div>{% endif %}
+  {% if branches %}
+  <table class="tbl">
+    <tr><th>Branch</th><th>City</th><th>Address</th><th>Phone</th><th>SWIFT</th></tr>
+    {% for b in branches %}
+    <tr><td><b>{{ b.name }}</b></td><td>{{ b.city }}</td><td>{{ b.address }}</td><td>{{ b.phone }}</td><td>{{ b.swift }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p class="alert info">No branches found{% if city %} for "{{ city }}"{% endif %}.</p>
+  {% endif %}
+</div></div>
+{% endblock %}

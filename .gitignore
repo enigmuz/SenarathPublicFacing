@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+siem-logs/**/*.log
+siem-logs/**/*.log.*
+general-website/logs/*.log*
+online-banking/logs/*.log*
+general-website/uploads/*
+!**/.gitkeep

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% set active='transfer' %}
+{% block title %}Transfer — SenNet{% endblock %}
+{% block content %}
+<h1>Transfer Funds</h1>
+<div class="crumb">Move money between accounts or to a beneficiary.</div>
+
+{% if result %}
+<div class="alert {{ 'ok' if result[0]=='ok' else 'err' }}">{{ result[1] }}</div>
+{% endif %}
+
+<div class="panel" style="max-width:620px">
+  <form method="post" action="/transfer">
+    <label>From account</label>
+    <select name="from_account" required>
+      {% for a in my_accounts %}
+      <option value="{{ a.account_no }}">{{ a.account_no }} — {{ a.account_type }} (LKR {{ '{:,.2f}'.format(a.balance) }})</option>
+      {% endfor %}
+    </select>
+
+    <label>To account number</label>
+    <input type="text" name="to_account" required placeholder="Recipient account number"
+           list="benelist">
+    <datalist id="benelist">
+      {% for b in benes %}<option value="{{ b.account_no }}">{{ b.nickname }} ({{ b.payee_name }})</option>{% endfor %}
+    </datalist>
+
+    <div class="form-row">
+      <div><label>Amount (LKR)</label><input type="number" step="0.01" name="amount" required></div>
+      <div><label>Reference / Memo</label><input type="text" name="memo" placeholder="e.g. Rent"></div>
+    </div>
+
+    <button class="btn navy lg" type="submit" style="margin-top:20px">Transfer now</button>
+  </form>
+</div>
+
+{% if benes %}
+<div class="panel" style="max-width:620px;margin-top:20px">
+  <h3>Saved beneficiaries</h3>
+  <table class="tbl">
+    <tr><th>Nickname</th><th>Account</th><th>Bank</th><th>Payee</th></tr>
+    {% for b in benes %}
+    {# [VULN: stored XSS] beneficiary fields rendered unescaped #}
+    <tr><td>{{ b.nickname | safe }}</td><td>{{ b.account_no }}</td><td>{{ b.bank }}</td><td>{{ b.payee_name | safe }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+{% endblock %}

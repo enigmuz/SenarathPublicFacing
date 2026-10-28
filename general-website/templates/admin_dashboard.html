@@ -1,0 +1,31 @@
+{% extends "admin_base.html" %}
+{% set active='dash' %}
+{% block title %}Dashboard — CMS{% endblock %}
+{% block content %}
+<h1 style="color:var(--navy);margin-top:0">Dashboard</h1>
+<div class="kpi">
+  <div class="k"><b>{{ msgs }}</b><span>Contact messages</span></div>
+  <div class="k"><b>{{ subs }}</b><span>Subscribers</span></div>
+  <div class="k"><b>{{ arts }}</b><span>News articles</span></div>
+  <div class="k"><b>{{ apps }}</b><span>Job applications</span></div>
+</div>
+<h2 style="color:var(--navy)">Recent security / audit events</h2>
+<table class="tbl">
+  <tr><th>Time (UTC)</th><th>Event</th><th>Severity</th><th>User</th><th>Source IP</th><th>Action</th><th>Outcome</th></tr>
+  {% for a in audit %}
+  <tr>
+    <td style="font-size:12.5px">{{ a.ts }}</td>
+    <td>{{ a.event_type }}</td>
+    <td>
+      {% set sv=a.severity %}
+      <span class="badge {{ 'info' if sv=='info' else 'med' if sv in ['medium','warn'] else 'high' if sv=='high' else 'crit' }}">{{ sv }}</span>
+    </td>
+    <td>{{ a.username or '-' }}</td>
+    <td>{{ a.src_ip or '-' }}</td>
+    <td>{{ a.action }}</td>
+    <td>{{ a.outcome }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<p style="color:var(--muted);font-size:13px;margin-top:10px">Full logs are shipped as JSON to the NG SIEM collector (<code>logs/audit.log</code>, <code>logs/access.log</code>).</p>
+{% endblock %}

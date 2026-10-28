@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% set active='dash' %}
+{% block title %}Dashboard — SenNet{% endblock %}
+{% block content %}
+<h1>Good day, {{ user.full_name }}</h1>
+<div class="crumb">Here's an overview of your accounts.</div>
+
+<div class="cards" style="margin-bottom:22px">
+  <div class="acct-card total-card">
+    <div class="type">TOTAL BALANCE</div>
+    <div class="bal">LKR {{ '{:,.2f}'.format(total) }}</div>
+    <div style="color:#f3e4bf;font-size:13px;margin-top:8px">{{ accounts|length }} account(s)</div>
+  </div>
+  {% for a in accounts %}
+  <div class="acct-card">
+    <div class="type">{{ a.account_type|upper }} · {{ a.branch }}</div>
+    <div class="no">{{ a.account_no }}</div>
+    <div class="bal">LKR {{ '{:,.2f}'.format(a.balance) }} <small>{{ a.currency }}</small></div>
+    <div style="margin-top:12px"><a href="/account/{{ a.account_no }}">View transactions →</a></div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="panel" style="margin-bottom:22px">
+  <h3>Quick actions</h3>
+  <div class="quick">
+    <a href="/transfer"><span class="i">💸</span>Transfer</a>
+    <a href="/payments"><span class="i">🧾</span>Pay Bills</a>
+    <a href="/beneficiaries"><span class="i">👥</span>Payees</a>
+    <a href="/statements"><span class="i">📄</span>Statements</a>
+    <a href="/support"><span class="i">💬</span>Support</a>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Recent transactions</h3>
+  {% if recent %}
+  <table class="tbl">
+    <tr><th>Date</th><th>Description</th><th>Reference</th><th>Type</th><th style="text-align:right">Amount (LKR)</th></tr>
+    {% for t in recent %}
+    <tr>
+      <td>{{ t.ts.strftime('%d %b %Y %H:%M') if t.ts else '' }}</td>
+      {# [VULN: stored XSS] memo rendered unescaped #}
+      <td>{{ t.counterparty_name }} — {{ t.memo | safe }}</td>
+      <td style="font-family:monospace;font-size:12px">{{ t.reference }}</td>
+      <td>{{ t.txn_type }}</td>
+      <td style="text-align:right" class="{{ 'amt-cr' if t.txn_type=='credit' else 'amt-dr' }}">
+        {{ '+' if t.txn_type=='credit' else '-' }}{{ '{:,.2f}'.format(t.amount) }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}<p style="color:var(--muted)">No transactions yet.</p>{% endif %}
+</div>
+{% endblock %}

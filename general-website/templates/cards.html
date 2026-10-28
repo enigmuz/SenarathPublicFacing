@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Cards — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Cards</div>
+  <h1>Cards</h1>
+  <p>Debit and credit cards that work everywhere.</p>
+</div></div>
+<div class="content"><div class="container">
+  <div class="grid c2">
+    <div class="card" style="background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff">
+      <div style="display:flex;justify-content:space-between"><b style="color:var(--gold);font-size:18px">Senarath Visa Debit</b><span>VISA</span></div>
+      <div style="font-family:monospace;font-size:22px;letter-spacing:3px;margin:28px 0 10px">4539 •••• •••• 1234</div>
+      <div style="display:flex;justify-content:space-between;color:#cfe0f2;font-size:13px"><span>CARDHOLDER</span><span>VALID THRU 08/28</span></div>
+      <p style="color:#d6e4f3;margin-top:18px">Free with any savings account. Shop worldwide and withdraw at any ATM.</p>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,#3a2d00,#7a5e00);color:#fff">
+      <div style="display:flex;justify-content:space-between"><b style="color:#ffe9a8;font-size:18px">Senarath Platinum Credit</b><span>Mastercard</span></div>
+      <div style="font-family:monospace;font-size:22px;letter-spacing:3px;margin:28px 0 10px">5412 •••• •••• 9876</div>
+      <div style="display:flex;justify-content:space-between;color:#f3e4bf;font-size:13px"><span>CARDHOLDER</span><span>VALID THRU 11/27</span></div>
+      <p style="color:#f3e4bf;margin-top:18px">Rewards on every spend, airport lounge access and up to 55 interest-free days.</p>
+    </div>
+  </div>
+  <div class="grid c3" style="margin-top:28px">
+    <div class="card"><div class="ic">🎁</div><h3>Rewards</h3><p>Earn points on every rupee you spend.</p></div>
+    <div class="card"><div class="ic">🔒</div><h3>Secure</h3><p>Chip & PIN, 3-D Secure and instant lock in SenNet.</p></div>
+    <div class="card"><div class="ic">🌍</div><h3>Global</h3><p>Accepted at millions of merchants worldwide.</p></div>
+  </div>
+</div></div>
+{% endblock %}

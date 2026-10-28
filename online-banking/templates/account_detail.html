@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% set active='accts' %}
+{% block title %}{{ acct.account_no }} — SenNet{% endblock %}
+{% block content %}
+<h1>Account {{ acct.account_no }}</h1>
+<div class="crumb">{{ acct.account_type }} · {{ acct.branch }} · {{ acct.currency }}</div>
+
+<div class="acct-card" style="max-width:360px;margin-bottom:22px">
+  <div class="type">{{ acct.account_type|upper }}</div>
+  <div class="no">{{ acct.account_no }}</div>
+  <div class="bal">LKR {{ '{:,.2f}'.format(acct.balance) }}</div>
+  <div style="color:#cfe0f2;font-size:12px;margin-top:8px">Status: {{ acct.status }}</div>
+</div>
+
+<div class="panel">
+  <h3>Transaction history</h3>
+  {% if txns %}
+  <table class="tbl">
+    <tr><th>Date/Time</th><th>Description</th><th>Counterparty</th><th>Ref</th><th style="text-align:right">Amount</th><th style="text-align:right">Balance</th></tr>
+    {% for t in txns %}
+    <tr>
+      <td>{{ t.ts.strftime('%d %b %Y %H:%M') if t.ts else '' }}</td>
+      {# [VULN: stored XSS] memo rendered unescaped #}
+      <td>{{ t.memo | safe }}</td>
+      <td>{{ t.counterparty_name }}{% if t.counterparty_acct %}<br><small style="color:var(--muted)">{{ t.counterparty_acct }}</small>{% endif %}</td>
+      <td style="font-family:monospace;font-size:12px">{{ t.reference }}</td>
+      <td style="text-align:right" class="{{ 'amt-cr' if t.txn_type=='credit' else 'amt-dr' }}">
+        {{ '+' if t.txn_type=='credit' else '-' }}{{ '{:,.2f}'.format(t.amount) }}
+      </td>
+      <td style="text-align:right">{{ '{:,.2f}'.format(t.balance_after) if t.balance_after is not none else '' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}<p style="color:var(--muted)">No transactions.</p>{% endif %}
+</div>
+{% endblock %}

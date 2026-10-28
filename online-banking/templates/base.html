@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}SenNet — Senarath Bank{% endblock %}</title>
+<link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<div class="sim-ribbon"><div class="inner">⚠ SIMULATION — SECURITY TRAINING LAB — <b>NOT A REAL BANK</b> — Do not enter real credentials or data.</div></div>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><img src="{{ url_for('static', filename='img/logo.png') }}"><b>SenNet</b></div>
+    <a class="nav {{ 'active' if active=='dash' }}" href="/dashboard">📊 Dashboard</a>
+    <a class="nav {{ 'active' if active=='accts' }}" href="/accounts">🏦 My Accounts</a>
+    <a class="nav {{ 'active' if active=='transfer' }}" href="/transfer">💸 Transfer</a>
+    <a class="nav {{ 'active' if active=='payments' }}" href="/payments">🧾 Pay Bills</a>
+    <a class="nav {{ 'active' if active=='benes' }}" href="/beneficiaries">👥 Beneficiaries</a>
+    <a class="nav {{ 'active' if active=='stmt' }}" href="/statements">📄 Statements</a>
+    <div class="sec">Account</div>
+    <a class="nav {{ 'active' if active=='profile' }}" href="/profile">⚙ Profile</a>
+    <a class="nav {{ 'active' if active=='support' }}" href="/support">💬 Support</a>
+    {% if user and user.role in ['admin','teller'] %}
+    <div class="sec">Staff</div>
+    <a class="nav {{ 'active' if active=='admin' }}" href="/admin">🛡 Admin Panel</a>
+    {% endif %}
+    <div class="sec">&nbsp;</div>
+    <a class="nav" href="/logout">🚪 Log out</a>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <div><a href="{{ web_url }}/" style="color:var(--muted);font-size:13px">← Senarath Bank website</a></div>
+      <div class="who">
+        <span style="color:var(--muted);font-size:14px">{{ user.full_name if user else '' }}</span>
+        <div class="avatar">{{ (user.full_name[0] if user and user.full_name else 'U')|upper }}</div>
+      </div>
+    </div>
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

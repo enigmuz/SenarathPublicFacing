@@ -1,0 +1,20 @@
+{% extends "admin_base.html" %}
+{% set active='news' %}
+{% block title %}{{ 'Edit' if a else 'New' }} Article — CMS{% endblock %}
+{% block content %}
+<h1 style="color:var(--navy);margin-top:0">{{ 'Edit' if a else 'New' }} Article</h1>
+<div class="form-card" style="max-width:820px">
+  <form method="post">
+    <label>Title</label><input type="text" name="title" value="{{ a.title if a else '' }}" required>
+    <div class="form-row">
+      <div><label>Slug</label><input type="text" name="slug" value="{{ a.slug if a else '' }}" required></div>
+      <div><label>Category</label><input type="text" name="category" value="{{ a.category if a else 'News' }}"></div>
+    </div>
+    <label>Summary</label><input type="text" name="summary" value="{{ a.summary if a else '' }}">
+    <label>Body (HTML allowed)</label>
+    <textarea name="body" style="min-height:200px;font-family:monospace">{{ a.body if a else '' }}</textarea>
+    <p style="color:var(--muted);font-size:12.5px">Note: HTML is stored and rendered as-is on the public site.</p>
+    <button class="btn navy lg" type="submit" style="margin-top:14px">Save article</button>
+  </form>
+</div>
+{% endblock %}

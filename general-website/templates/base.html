@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Senarath Bank{% endblock %}</title>
+<link rel="icon" href="{{ url_for('static', filename='img/logo.png') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="sim-ribbon"><div class="inner">
+  ⚠ SIMULATION ENVIRONMENT — SECURITY TRAINING LAB — <b>NOT A REAL BANK</b> — Do not enter real personal, financial or login details.
+</div></div>
+
+<div class="util"><div class="container">
+  <div class="left">📞 Hotline 1944 &nbsp;|&nbsp; ✉ info@senarathbank.lk</div>
+  <div class="right">
+    <a href="/branches">Branches</a>
+    <a href="/careers">Careers</a>
+    <a href="/contact">Contact</a>
+    <a href="{{ bank_url }}/" target="_blank">SenNet Online Banking ↗</a>
+  </div>
+</div></div>
+
+<header class="site"><div class="container">
+  <a class="brand" href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Senarath Bank"></a>
+  <nav class="main">
+    <a href="/personal">Personal</a>
+    <a href="/business">Business</a>
+    <a href="/loans">Loans</a>
+    <a href="/cards">Cards</a>
+    <a href="/news">News</a>
+    <a href="/about">About</a>
+  </nav>
+  <a class="btn" href="{{ bank_url }}/">Login to SenNet</a>
+</div></header>
+
+{% block body %}{% endblock %}
+
+<footer class="site"><div class="container">
+  <div class="cols">
+    <div>
+      <a class="brand" href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Senarath Bank"></a>
+      <p style="margin-top:14px;max-width:300px">Senarath Bank — a fictional Sri Lankan bank used for security simulation and SIEM detection training.</p>
+    </div>
+    <div>
+      <h4>Banking</h4>
+      <a href="/personal">Personal Banking</a>
+      <a href="/business">Business Banking</a>
+      <a href="/loans">Loans</a>
+      <a href="/cards">Cards</a>
+    </div>
+    <div>
+      <h4>About</h4>
+      <a href="/about">About Us</a>
+      <a href="/branches">Branch Network</a>
+      <a href="/careers">Careers</a>
+      <a href="/news">Newsroom</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="/contact">Contact Us</a>
+      <a href="{{ bank_url }}/">Online Banking</a>
+      <a href="/admin/login">Staff Portal</a>
+    </div>
+  </div>
+  <div class="legal">
+    <span>© {{ year }} Senarath Bank PLC (SIMULATION). All data fictional.</span>
+    <span>SWIFT: SENBLKLX · Regulated training environment</span>
+  </div>
+</div></footer>
+
+</body>
+</html>

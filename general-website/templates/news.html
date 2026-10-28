@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Newsroom — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / News</div>
+  <h1>Newsroom</h1>
+  <p>Announcements, press releases and updates.</p>
+</div></div>
+<div class="content"><div class="container">
+  <form method="get" action="/search" style="display:flex;gap:10px;max-width:460px;margin-bottom:24px">
+    <input type="text" name="q" placeholder="Search news...">
+    <button class="btn navy" type="submit">Search</button>
+  </form>
+  <div class="grid c3">
+    {% for n in news %}
+    <div class="news-item"><div class="body">
+      <div class="cat">{{ n.category }}</div>
+      <h3><a href="/news/{{ n.slug }}">{{ n.title }}</a></h3>
+      <p style="color:var(--muted);font-size:14.5px">{{ n.summary }}</p>
+      <div class="meta">By {{ n.author }} · {{ n.published_at.strftime('%d %b %Y') if n.published_at else '' }}</div>
+    </div></div>
+    {% endfor %}
+  </div>
+</div></div>
+{% endblock %}

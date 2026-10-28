@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Careers — Senarath Bank{% endblock %}
+{% block body %}
+<div class="page-head"><div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Careers</div>
+  <h1>Careers</h1>
+  <p>Build your future with Senarath Bank.</p>
+</div></div>
+<div class="content"><div class="container">
+  <div class="two-col">
+    <div>
+      <h2 style="color:var(--navy);margin-top:0">Open positions</h2>
+      {% for j in jobs %}
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <h3 style="margin:0">{{ j.title }}</h3>
+          <span class="badge info">{{ j.type }}</span>
+        </div>
+        <p style="color:var(--muted);margin:6px 0">{{ j.department }} · {{ j.location }}</p>
+        <p style="color:var(--muted);font-size:14.5px">{{ j.description }}</p>
+        <p style="font-size:13px;color:var(--muted)">Closing: {{ j.closing_date }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div>
+      <div class="form-card">
+        <h2 style="margin-top:0;color:var(--navy)">Apply now</h2>
+        <form method="post" action="/careers/apply" enctype="multipart/form-data">
+          <label>Position</label>
+          <select name="career_id">
+            {% for j in jobs %}<option value="{{ j.id }}">{{ j.title }}</option>{% endfor %}
+          </select>
+          <label>Full name</label><input type="text" name="applicant" required>
+          <div class="form-row">
+            <div><label>Email</label><input type="email" name="email" required></div>
+            <div><label>Phone</label><input type="tel" name="phone"></div>
+          </div>
+          <label>Cover note</label><textarea name="cover_note"></textarea>
+          <label>Upload CV</label><input type="file" name="cv">
+          <button class="btn navy lg" type="submit" style="margin-top:18px;width:100%">Submit application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div></div>
+{% endblock %}

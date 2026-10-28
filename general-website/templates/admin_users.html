@@ -1,0 +1,18 @@
+{% extends "admin_base.html" %}
+{% set active='users' %}
+{% block title %}CMS Users — CMS{% endblock %}
+{% block content %}
+<h1 style="color:var(--navy);margin-top:0">CMS Users</h1>
+<p class="alert info">Password hashes are shown here (intentional weakness — sensitive data exposure).</p>
+<table class="tbl">
+  <tr><th>#</th><th>Username</th><th>Full name</th><th>Email</th><th>Role</th><th>Password (MD5)</th><th>Status</th></tr>
+  {% for u in rows %}
+  <tr>
+    <td>{{ u.id }}</td><td><b>{{ u.username }}</b></td><td>{{ u.full_name }}</td>
+    <td>{{ u.email }}</td><td><span class="badge info">{{ u.role }}</span></td>
+    <td style="font-family:monospace;font-size:12.5px">{{ u.password_md5 }}</td>
+    <td>{{ u.status }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
